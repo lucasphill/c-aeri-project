@@ -31,8 +31,8 @@ Source: "..\build\package\aeri.exe"; DestDir: "{app}"; DestName: "FanController.
 Source: "..\build\package\PresentMon-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\package\PresentMon-THIRD-PARTY.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "manage-startup.ps1"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\build\package\fanctl-curves.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall
-Source: "..\build\package\fanctl-startup.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall
+Source: "..\build\package\fanctl-curves.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall skipifsourcedoesntexist
+Source: "..\build\package\fanctl-startup.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall skipifsourcedoesntexist
 
 Source: "..\build\package\WebView2-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 

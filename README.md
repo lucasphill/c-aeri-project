@@ -2,11 +2,12 @@
 
 [Baixar a build mais recente para Windows x64](https://github.com/lucasphill/c-fancontroller-project/releases/latest).
 Cada push em `main` executa os testes sem hardware, compila a GUI e a CLI e
-publica uma nova release com `aeri.exe`, `fanctl.exe`, ZIP com licenças
+publica uma nova release com o instalador, `aeri.exe`, `fanctl.exe`, ZIP com licenças
 e checksums SHA-256. Pull requests executam a mesma validação sem publicar.
 Também é possível executar manualmente o workflow **Windows build and release**.
-As releases automáticas são portáteis: não incluem instalador nem configuram
-início automático. O instalador descrito abaixo é gerado localmente.
+Cada release inclui também o instalador `aeri-Setup-<versão>-x64.exe` (gerado
+com Inno Setup, não assinado e sem curvas pré-salvas), que configura o início
+automático. O ZIP e os executáveis soltos continuam portáteis.
 
 Aplicativo C++ para este Dell G15 5530, com janela, bandeja e comandos de terminal,
 com foco em melhorar a refrigeração por boost individual das fans.
