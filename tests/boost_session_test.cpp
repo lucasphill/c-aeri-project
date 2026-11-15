@@ -103,11 +103,27 @@ void runTests() {
         Firmware firmware;
         BoostSession session(firmware, {{50, 30}});
         session.apply([] { return false; });
-        firmware.state.profile = 161;
+        firmware.state.profile = 162;
         expectFailure([&] { session.sample(); });
         expect(session.restore().verified, "Original profile was not restored after external change");
         expect(firmware.readProfile() == 160, "Profile restore failed");
         expect(firmware.readBoost(50) == 0, "Profile change prevented restoring touched boost");
+    }
+    {
+        Firmware firmware;
+        firmware.state.profile = 161;
+        BoostSession session(firmware, {{50, 30}});
+        session.apply([] { return false; });
+        expect(firmware.readProfile() == 0, "Custom was not selected from profile 161");
+        expect(session.restore().verified, "Profile 161 restoration failed");
+        expect(firmware.readProfile() == 161, "Profile 161 was not restored");
+        expect(firmware.readBoost(50) == 0, "Boost was not restored from profile 161");
+    }
+    {
+        Firmware firmware;
+        firmware.state.profile = 162;
+        expectFailure([&] { BoostSession session(firmware, {{50, 30}}); });
+        expect(firmware.writes.empty() && firmware.operations.empty(), "Wrote with an unvalidated profile");
     }
     {
         Firmware firmware;

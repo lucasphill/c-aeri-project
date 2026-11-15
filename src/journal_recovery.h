@@ -11,7 +11,7 @@ inline Snapshot decodeJournal(const std::string& text) {
         if (line.rfind("requested ",0)==0) continue;
         if (line.rfind("profile=",0)==0 && !profile) {
             const auto value=line.substr(8);std::size_t used=0;const auto n=std::stoul(value,&used);
-            if (used!=value.size() || (n!=0 && n!=160)) throw std::runtime_error("Perfil do registro invalido.");
+            if (used!=value.size() || (n>255 || !validatedProfile(static_cast<std::uint32_t>(n)))) throw std::runtime_error("Perfil do registro invalido.");
             state.profile=static_cast<std::uint32_t>(n);profile=true;
         } else if (line.rfind("original 50=",0)==0 || line.rfind("original 51=",0)==0) {
             const auto id=line[10]=='0' ? 50U : 51U;

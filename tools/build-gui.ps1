@@ -27,7 +27,8 @@ if ($Preview) {
 }
 $env:FANCTL_SQLITE_SOURCE=Join-Path $root 'third_party\sqlite\sqlite3.c'
 $env:AERI_WEBVIEW=Join-Path $webview 'build/native'
-$page=(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.html') -Raw).Replace('{{STYLE}}',(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.css') -Raw)).Replace('{{SCRIPT}}',(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.js') -Raw))
+# Windows PowerShell 5.1 reads BOM-less files as ANSI; force UTF-8 so accents are not double-encoded.
+$page=(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.html') -Raw -Encoding UTF8).Replace('{{STYLE}}',(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.css') -Raw -Encoding UTF8)).Replace('{{SCRIPT}}',(Get-Content -LiteralPath (Join-Path $root 'src/ui/aeri.js') -Raw -Encoding UTF8))
 [IO.File]::WriteAllText((Join-Path $build 'aeri-page.html'),$page,[Text.UTF8Encoding]::new($false))
 $icon=(Join-Path $root 'assets/aeri.ico').Replace('\','\\')
 [IO.File]::WriteAllText((Join-Path $build 'aeri.rc'),("400 RCDATA `"aeri-page.html`"`n101 ICON `"$icon`""),[Text.UTF8Encoding]::new($false))

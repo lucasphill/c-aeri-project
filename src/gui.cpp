@@ -422,7 +422,7 @@ private:
                     error=wide(exception.what());attention=true;transientError=!session;
                     if (session && !restore()) attention=true;
                     configuration=session?"Restauração pendente · configuração não confirmada":"Controle original · recuperação após falha";
-                    history_->event("Falha de controle ou leitura",configuration);
+                    history_->event("Falha de controle ou leitura",configuration+" · "+exception.what());
                     if (!session) {automatic.reset();mode=0;if (nvml!=manualNvml) {nvml=manualNvml;makeMonitor();}}
                     if (request && request->action==Action::Apply && request->startupAttempt>=0 &&
                         request->startupAttempt<11 && !session && !pending && !cancel_) {

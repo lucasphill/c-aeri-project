@@ -15,6 +15,11 @@ struct Snapshot {
     std::vector<Fan> fans;
     std::vector<Sensor> sensors;
 };
+// Dell thermal profiles that can be restored by readback: 0 (Custom), 160 (balanced)
+// and 161, observed on the author's Dell G15 5530 as the machine's own mode.
+inline constexpr bool validatedProfile(std::uint32_t profile) {
+    return profile == 0 || profile == 160 || profile == 161;
+}
 struct Adjustment { std::uint32_t id; std::uint32_t boost; };
 struct RestoreResult { bool verified; std::vector<std::string> messages; };
 
@@ -39,8 +44,9 @@ public:
     BoostSession(ThermalBackend& backend, std::vector<Adjustment> requested)
         : backend_(backend), requested_(std::move(requested)), original_(backend.read()) {
         if (requested_.empty()) throw std::runtime_error("Nenhuma fan solicitada.");
-        if (original_.profile != 0 && original_.profile != 160)
-            throw std::runtime_error("Perfil original ainda nao validado; use Custom ou equilibrado.");
+        if (!validatedProfile(original_.profile))
+            throw std::runtime_error("Perfil original " + std::to_string(original_.profile) +
+                " ainda nao validado; use Custom ou equilibrado.");
         if (original_.fans.size() != 2 || findFan(original_, 50).boost > 255 ||
             findFan(original_, 51).boost > 255)
             throw std::runtime_error("Estado anterior das fans nao restauravel.");

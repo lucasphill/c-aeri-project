@@ -146,7 +146,7 @@ public:
     std::uint32_t readProfile() override { return query(Query::Profile); }
     std::uint32_t readBoost(std::uint32_t id) override { return query(Query::Boost, id); }
     void setProfile(std::uint32_t profile) override {
-        if (profile != 0 && profile != 160) throw std::runtime_error("Perfil nao validado.");
+        if (!validatedProfile(profile)) throw std::runtime_error("Perfil nao validado.");
         if (invoke(L"Thermal_Control", (profile << 8) | 1) != 0)
             throw std::runtime_error("Firmware rejeitou troca de perfil.");
     }
