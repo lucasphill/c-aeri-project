@@ -17,7 +17,7 @@ O núcleo permanece em C++. A interface local é embutida no executável e apres
 
 O Acrylic do Windows permite perceber o conteúdo atrás da janela quando o sistema oferece suporte e transparência está habilitada. A alternativa é fundo sólido. O material e seu nível de desfoque são administrados pelo Windows. O OSD possui fundo independente.
 
-`aeri.exe` é o nome público da build. O alias `FanController.exe`, pasta de instalação, tarefa de login, mutex, banco e arquivos de sessão continuam compatíveis com instalações anteriores. Não são abertas sessões paralelas pelo rebranding.
+`aeri.exe` é o nome público da build. O instalador agora usa a pasta `C:\Program Files\aeri`, `aeri.exe` e a tarefa `aeri - Lucas`, migrando instalações antigas; o alias `FanController.exe` de build, mutex, banco e arquivos de sessão continuam compatíveis com instalações anteriores. Não são abertas sessões paralelas pelo rebranding.
 
 ## Compilar e avaliar
 

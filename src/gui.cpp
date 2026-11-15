@@ -491,7 +491,7 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE,PWSTR arguments,int show) {
 #endif
     if (!argument.empty() && !startup && !preview) return 2;
     if (!preview && !fanctl::isAdministrator()) {
-        MessageBoxW(nullptr,L"Abra o FanController como administrador para acessar a interface Dell.",L"aeri",MB_OK|MB_ICONINFORMATION);
+        MessageBoxW(nullptr,L"Abra o aeri como administrador para acessar a interface Dell.",L"aeri",MB_OK|MB_ICONINFORMATION);
         return 1;
     }
     HANDLE singleton=CreateMutexW(nullptr,TRUE,preview ? L"Local\\FanControllerGuiPreview" : L"Local\\FanControllerGui");

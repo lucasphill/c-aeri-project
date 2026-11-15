@@ -48,7 +48,7 @@ public:
             status_=L"Falha ao registrar janela da faixa";return;
         }
         window_=CreateWindowExW(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOPMOST|WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE,
-            wc.lpszClassName,L"FanController · OSD",WS_POPUP,0,0,0,0,nullptr,nullptr,instance_,this);
+            wc.lpszClassName,L"aeri · OSD",WS_POPUP,0,0,0,0,nullptr,nullptr,instance_,this);
         if(window_) {
             addHook(EVENT_SYSTEM_FOREGROUND,EVENT_SYSTEM_FOREGROUND);
             addHook(EVENT_SYSTEM_MINIMIZESTART,EVENT_SYSTEM_MINIMIZEEND);
