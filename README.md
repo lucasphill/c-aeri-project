@@ -37,9 +37,10 @@ A abertura normal apenas monitora. Fechar/minimizar mantém o programa na bandej
 confirmada mantém o registro disponível para nova tentativa.
 
 O rebranding preserva o banco em `%LOCALAPPDATA%\FanController\history.db`, os
-arquivos de configuração, o alias `FanController.exe` e a tarefa de início
-existente. O instalador local passa a se chamar `aeri-Setup-0.7.0-x64.exe`.
-As releases automáticas continuam portáteis.
+arquivos de configuração e o alias de build `FanController.exe`. O instalador
+passa a usar `C:\Program Files\aeri`, `aeri.exe` e a tarefa `aeri - Lucas`,
+migrando automaticamente instalações antigas. O instalador se chama
+`aeri-Setup-0.7.0-x64.exe`; o ZIP da release continua portátil.
 
 Para avaliar o visual sem hardware:
 

@@ -4,7 +4,8 @@ AppId={{7C301214-1666-4DC6-A287-8B378329C68F}
 AppName=aeri
 AppVersion={#AppVersion}
 AppPublisher=Lucas
-DefaultDirName={autopf}\FanController
+DefaultDirName={autopf}\aeri
+UsePreviousAppDir=no
 DisableDirPage=yes
 DefaultGroupName=aeri
 DisableProgramGroupPage=yes
@@ -20,14 +21,14 @@ WizardStyle=modern
 AppMutex=Local\FanControllerGui
 CloseApplications=no
 RestartApplications=no
-UninstallDisplayIcon={app}\FanController.exe
+UninstallDisplayIcon={app}\aeri.exe
 SetupLogging=yes
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [Files]
-Source: "..\build\package\aeri.exe"; DestDir: "{app}"; DestName: "FanController.exe"; Flags: ignoreversion
+Source: "..\build\package\aeri.exe"; DestDir: "{app}"; DestName: "aeri.exe"; Flags: ignoreversion
 Source: "..\build\package\PresentMon-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\package\PresentMon-THIRD-PARTY.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "manage-startup.ps1"; DestDir: "{app}"; Flags: ignoreversion
@@ -37,7 +38,7 @@ Source: "..\build\package\fanctl-startup.txt"; DestDir: "{app}"; Flags: onlyifdo
 Source: "..\build\package\WebView2-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\aeri"; Filename: "{app}\FanController.exe"; WorkingDir: "{app}"
+Name: "{group}\aeri"; Filename: "{app}\aeri.exe"; WorkingDir: "{app}"
 Name: "{group}\Desinstalar aeri"; Filename: "{uninstallexe}"
 
 [Code]
@@ -51,8 +52,30 @@ begin
   Result := Result and (Code = 0);
 end;
 
+procedure MigrateLegacyInstall;
+var
+  OldDir, NewDir, Name: String;
+  I: Integer;
+  Files: array[0..1] of String;
+begin
+  OldDir := ExpandConstant('{autopf}\FanController');
+  NewDir := ExpandConstant('{app}');
+  if not DirExists(OldDir) then Exit;
+  Files[0] := 'fanctl-curves.txt';
+  Files[1] := 'fanctl-startup.txt';
+  for I := 0 to 1 do
+  begin
+    Name := Files[I];
+    if FileExists(OldDir + '\' + Name) and not FileExists(NewDir + '\' + Name) then
+      FileCopy(OldDir + '\' + Name, NewDir + '\' + Name, True);
+  end;
+  DelTree(OldDir, True, True, True);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
+  if CurStep = ssInstall then
+    MigrateLegacyInstall;
   if CurStep = ssPostInstall then
     if not ManageStartup('Install') then
       RaiseException('Não foi possível registrar a inicialização automática. Execute o instalador novamente.');

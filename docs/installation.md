@@ -1,23 +1,25 @@
 # Instalação e início automático
 
-Versão 0.4.2, preparada em 25/10/2026 para este Dell G15 5530 e a conta Lucas.
+Versão 0.7.0, para o Dell G15 5530 e a conta que executou a instalação.
 
 ## Instalar
 
-Execute `dist\FanController-Setup-0.4.2-x64.exe`. O instalador solicita
-administrador, instala em `C:\Program Files\FanController`, cria atalhos e uma
+Execute `dist\aeri-Setup-0.7.0-x64.exe` (também disponível nas releases do GitHub). O instalador solicita
+administrador, instala em `C:\Program Files\aeri`, cria atalhos e uma
 entrada de desinstalação no Windows. Encerre uma versão aberta usando Sair antes
 de instalar/atualizar; o instalador verifica a trava e não força seu encerramento.
 
 O pacote inicial usa Normal e inclui as curvas salvas na versão de desenvolvimento.
 Atualizações preservam os arquivos de curvas e do último modo já instalados.
+Instalações antigas em `C:\Program Files\FanController` são migradas: o instalador copia
+curvas e último modo, remove a pasta e a tarefa `FanController - Lucas` antigas.
 O histórico térmico fica por usuário em `%LOCALAPPDATA%\FanController\history.db`
 e também é preservado em atualizações e na desinstalação.
 O instalador inicia a tarefa ao concluir. Não precisa reiniciar para usar agora.
 
 ## Início automático
 
-A tarefa `FanController - Lucas` executa o aplicativo com `--startup`, na sessão
+A tarefa `aeri - Lucas` executa o aplicativo com `--startup`, na sessão
 interativa da conta que instalou, com privilégios elevados. O gatilho é o login
 nessa conta, com atraso de 10 segundos. Não há senha armazenada pelo programa.
 O consentimento de administrador é dado na instalação; não há UAC a cada login.
@@ -64,7 +66,7 @@ Arquivos de configuração inválidos também impedem a ativação automática.
 
 ## Desinstalar
 
-Use Aplicativos instalados no Windows ou o atalho Desinstalar FanController.
+Use Aplicativos instalados no Windows ou o atalho Desinstalar aeri.
 Encerre primeiro o programa por Sair, permitindo restaurar as fans. A
 desinstalação remove a tarefa, os executáveis e atalhos. Curvas e último modo
 são preservados para eventual reinstalação.
@@ -74,7 +76,7 @@ são preservados para eventual reinstalação.
 `tools/build-installer.ps1` usa Inno Setup portátil em `.tools/inno`, compila a GUI
 em `build/package` sem substituir um executável em uso e gera o pacote em `dist`.
 O compilador foi obtido da distribuição oficial 6.7.3 e sua assinatura Pyrsys B.V.
-foi verificada. O instalador local do FanController não tem certificado de assinatura.
+foi verificada. O instalador do aeri não tem certificado de assinatura.
 
 `tools/test.ps1` cobre configuração de início e recuperação, além das curvas e
 sessões de controle. `tools/verify-installation.ps1`, elevado, confere a tarefa,

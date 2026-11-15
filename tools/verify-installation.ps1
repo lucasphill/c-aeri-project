@@ -5,26 +5,26 @@ $root=Split-Path $PSScriptRoot -Parent
 $output=Join-Path $root '.scratch/fan-controller/installation-check.json'
 $report=[ordered]@{started=(Get-Date).ToString('o');status='running'}
 try {
-    $installed=Join-Path $env:ProgramFiles 'FanController'
+    $installed=Join-Path $env:ProgramFiles 'aeri'
     & (Join-Path $installed 'manage-startup.ps1') -Mode Verify | Out-Null
-    $task=Get-ScheduledTask -TaskName 'FanController - Lucas'
+    $task=Get-ScheduledTask -TaskName 'aeri - Lucas'
     $report.task=[ordered]@{name=[string]$task.TaskName;state=[string]$task.State;user=[string]$task.Principal.UserId;runLevel=[string]$task.Principal.RunLevel;logonType=[string]$task.Principal.LogonType;arguments=[string]$task.Actions.Arguments;delay=[string]$task.Triggers.Delay;executionTimeLimit=[string]$task.Settings.ExecutionTimeLimit}
     if ($task.State -ne 'Running') {throw 'Tarefa nao esta em execucao.'}
-    $processes=@(Get-CimInstance Win32_Process -Filter "Name='FanController.exe'")
+    $processes=@(Get-CimInstance Win32_Process -Filter "Name='aeri.exe'")
     $report.processes=@($processes | Select-Object ProcessId,ExecutablePath,CommandLine)
-    if ($processes.Count -ne 1 -or $processes[0].ExecutablePath -ne (Join-Path $installed 'FanController.exe') -or $processes[0].CommandLine -notmatch '--startup') {throw 'Processo instalado nao confere.'}
+    if ($processes.Count -ne 1 -or $processes[0].ExecutablePath -ne (Join-Path $installed 'aeri.exe') -or $processes[0].CommandLine -notmatch '--startup') {throw 'Processo instalado nao confere.'}
     $report.hidden=(Get-Process -Id $processes[0].ProcessId).MainWindowHandle -eq 0
     $before=$processes[0].ProcessId
     Start-ScheduledTask -TaskName $task.TaskName
     Start-Sleep -Seconds 2
-    $after=@(Get-CimInstance Win32_Process -Filter "Name='FanController.exe'")
+    $after=@(Get-CimInstance Win32_Process -Filter "Name='aeri.exe'")
     if ($after.Count -ne 1 -or $after[0].ProcessId -ne $before) {throw 'A tarefa iniciou instancia duplicada.'}
     $report.ignoreDuplicateRun=$true
     # ReadAllText avoids provider annotations on strings in Windows PowerShell 5.1 JSON.
     $report.lastMode=[System.IO.File]::ReadAllText((Join-Path $installed 'fanctl-startup.txt'))
     $report.journal=[System.IO.File]::ReadAllText((Join-Path $installed 'fanctl-session.txt'))
-    $report.binaryHash=(Get-FileHash -LiteralPath (Join-Path $installed 'FanController.exe')).Hash
-    if ($report.binaryHash -ne (Get-FileHash -LiteralPath (Join-Path $root 'build/package/FanController.exe')).Hash) {throw 'Binario instalado difere do pacote.'}
+    $report.binaryHash=(Get-FileHash -LiteralPath (Join-Path $installed 'aeri.exe')).Hash
+    if ($report.binaryHash -ne (Get-FileHash -LiteralPath (Join-Path $root 'build/package/aeri.exe')).Hash) {throw 'Binario instalado difere do pacote.'}
     $instance=Get-CimInstance -Namespace root/WMI -ClassName AWCCWmiMethodFunction -OperationTimeoutSec 5
     function Read-Thermal([uint32]$op,[uint32]$id=0) {
         if ($op -notin @(4,5,11,12)) {throw 'Consulta nao permitida.'}

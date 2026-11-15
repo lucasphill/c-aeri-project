@@ -35,7 +35,7 @@ Conjunto de amostras que permite acompanhar a evolução das temperaturas, rota�
 Grandeza acompanhada para observar o estado do computador ou o desempenho de um jogo, como temperatura, uso, rotação ou taxa de quadros. Sua disponibilidade depende da fonte de leitura.
 
 **Exibição na tela (OSD)**:
-Apresentação das métricas selecionadas sobre a imagem de um jogo, permitindo acompanhá-las sem abrir a janela do FanController.
+Apresentação das métricas selecionadas sobre a imagem de um jogo, permitindo acompanhá-las sem abrir a janela do aeri.
 
 **Tempo de quadro**:
 Tempo associado à produção ou apresentação de um quadro do jogo, expresso em milissegundos. A interpretação da medida depende da fonte de leitura.

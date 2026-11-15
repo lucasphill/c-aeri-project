@@ -13,6 +13,6 @@ Set-Content -LiteralPath (Join-Path $root 'build/package/fanctl-startup.txt') -E
 $compiler=$InnoCompiler
 if (-not $compiler) {$compiler=Join-Path $root '.tools/inno/ISCC.exe'}
 if (-not (Test-Path $compiler)) {throw "Compilador Inno Setup nao encontrado em $compiler."}
-& $compiler (Join-Path $root 'installer/FanController.iss')
+& $compiler (Join-Path $root 'installer/aeri.iss')
 if ($LASTEXITCODE -ne 0) {throw 'Compilacao do instalador falhou.'}
 Get-ChildItem (Join-Path $root 'dist/aeri-Setup-*.exe') | Select-Object FullName,Length
